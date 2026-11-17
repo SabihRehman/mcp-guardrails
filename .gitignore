@@ -1,0 +1,16 @@
+node_modules/
+dist/
+scratch/
+
+# Your live policy. Copy policy.example.json to policy.json and edit.
+policy.json
+
+# Audit output
+.audit/
+*.jsonl
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.log

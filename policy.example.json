@@ -1,0 +1,62 @@
+{
+  "$comment": "Copy to policy.json and edit. First matching rule wins; an unlisted tool is denied.",
+  "defaultDecision": "deny",
+  "rules": [
+    {
+      "tool": "issues.list",
+      "decision": "allow",
+      "reason": "Reading the issue list is harmless"
+    },
+    {
+      "tool": "audit.tail",
+      "decision": "allow",
+      "reason": "The agent should be able to explain its own refusals"
+    },
+    {
+      "tool": "issues.comment",
+      "decision": "allow",
+      "reason": "Commenting is reversible and useful",
+      "constraints": {
+        "body": { "maxLength": 2000 },
+        "id": { "maxNumber": 100000 }
+      },
+      "rateLimit": { "perMinute": 5 }
+    },
+    {
+      "tool": "issues.close",
+      "decision": "confirm",
+      "reason": "Closing an issue is visible to the whole team and irritating to undo"
+    },
+    {
+      "tool": "workspace.list",
+      "decision": "allow",
+      "constraints": {
+        "path": { "pathDeny": [".git", ".env", ".audit", "node_modules"] }
+      }
+    },
+    {
+      "tool": "workspace.read",
+      "decision": "allow",
+      "reason": "Reading source is the main thing a coding agent needs",
+      "constraints": {
+        "path": {
+          "pathPrefix": ["src/", "test/", "docs/"],
+          "pathDeny": [".env", "secret", "credential", "id_rsa", ".pem"]
+        }
+      }
+    },
+    {
+      "tool": "workspace.write",
+      "decision": "allow",
+      "reason": "Writing is allowed, but only to source and test trees",
+      "constraints": {
+        "path": {
+          "pathPrefix": ["src/", "test/"],
+          "pathDeny": [".env", "secret", "credential"]
+        },
+        "content": { "maxLength": 100000 }
+      },
+      "rateLimit": { "perMinute": 30 }
+    }
+  ]
+}

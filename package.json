@@ -1,0 +1,42 @@
+{
+  "name": "mcp-guardrails",
+  "version": "0.1.0",
+  "description": "An MCP server that puts a policy layer and an append-only audit trail in front of the tools an AI agent is allowed to call.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai-agents",
+    "tool-calling",
+    "guardrails",
+    "audit-log",
+    "claude"
+  ],
+  "bin": {
+    "mcp-guardrails": "./dist/src/index.js"
+  },
+  "main": "./dist/src/index.js",
+  "files": [
+    "dist",
+    "policy.example.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/src/index.js",
+    "test": "npm run build && node --test dist/test/*.test.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3"
+  }
+}
